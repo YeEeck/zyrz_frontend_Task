@@ -56,7 +56,7 @@ export default {
 
 <style>
 .username_input {
-  width: fit-content;
+  width: 300px;
 }
 
 .container {
