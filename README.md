@@ -1,5 +1,5 @@
 # project_test
-https://yeeeck.github.io/Vue_unicloud_test
+https://yeeeck.github.io/zyrz_frontend_Task/
 ## Project setup
 ```
 npm install
