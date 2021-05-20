@@ -13,8 +13,10 @@
       placeholder="密码"
     /><br /><br />
     <a-button type="primary" @click="reg">注册</a-button><br /><br />
-    <img v-if="loadingS" src="../assets/loading.gif" />
-    <span v-bind:class="tipClass">{{ res }}</span>
+    <img v-if="loadingS" src="../assets/loading.gif" class="load_img" />
+    <div v-if="getLoadRes" v-bind:class="tipClass" class="res_tip">
+      {{ res }}
+    </div>
   </div>
 </template>
 
@@ -55,12 +57,21 @@ export default {
       );
     },
   },
+  computed: {
+    getLoadRes() {
+      return !this.loadingS;
+    },
+  },
 };
 </script>
 
 <style>
+.res_tip {
+  height: 80px;
+}
+
 .username_input {
-  width: fit-content;
+  width: 300px;
 }
 
 .container {
@@ -82,5 +93,9 @@ input {
   border-width: 1px;
   border-radius: 10px;
   padding-left: 1em;
+}
+
+.load_img {
+  height: 80px;
 }
 </style>

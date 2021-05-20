@@ -1,12 +1,25 @@
 <template>
-    <div id="app">
-      <div id="nav">
-        <router-link to="/home">主页</router-link> |
-        <router-link to="/about">关于</router-link>
-      </div>
-      <router-view />
+  <div id="app">
+    <div class="background">
+      <img :src="imgSrc" width="100%" height="100%" alt="" />
     </div>
+    <div id="nav">
+      <router-link to="/home">主页</router-link> |
+      <router-link to="/about">关于</router-link>
+    </div>
+    <router-view />
+  </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      imgSrc: require("../src/assets/backImg.jpg"),
+    };
+  },
+};
+</script>
 
 <style>
 #app {
@@ -18,8 +31,17 @@
 }
 
 #nav {
+  margin: 0 auto;
   padding: 10px;
+
   font-size: large;
+
+  background-color: white;
+
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+
+  width: 200px;
 }
 
 #nav a {
@@ -28,10 +50,17 @@
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: rgb(24, 144, 255);
 }
 
 #nav a.router-link-active {
-  color: #42b983;
+  color: rgb(24, 144, 255);
+}
+
+.background {
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  position: absolute;
 }
 </style>
