@@ -44,6 +44,9 @@ export default {
             this.res = "登录成功";
             this.tipClass = "right_tip";
             this.loadingS = false;
+            setTimeout(() => {
+              this.$router.push("/inner");
+            }, 1000);
           } else {
             this.res = "用户名或密码错误";
             this.tipClass = "error_tip";

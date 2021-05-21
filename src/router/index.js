@@ -32,6 +32,11 @@ const routes = [
   }, {
     path: '/',
     redirect: '/home'
+  },
+  {
+    path: '/inner',
+    name: 'Inner',
+    component: () => import('../views/inner/inner.vue')
   }
 ]
 

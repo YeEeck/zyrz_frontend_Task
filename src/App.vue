@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <div class="background">
+    <div class="background" v-if="showMainTab">
       <img :src="imgSrc" width="100%" height="100%" alt="" />
     </div>
-    <div id="nav">
+    <div id="nav" v-show="showMainTab">
       <router-link to="/home">主页</router-link> |
       <router-link to="/about">关于</router-link>
     </div>
@@ -16,7 +16,19 @@ export default {
   data() {
     return {
       imgSrc: require("../src/assets/backImg.jpg"),
+      showMainTab: true,
     };
+  },
+  provide() {
+    return {
+      changeMainTabShow: this.changeMainTabShow,
+    };
+  },
+
+  methods: {
+    changeMainTabShow() {
+      this.showMainTab = false;
+    },
   },
 };
 </script>

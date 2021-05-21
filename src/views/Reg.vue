@@ -46,7 +46,7 @@ export default {
             this.tipClass = "right_tip";
             this.loadingS = false;
             setTimeout(() => {
-              this.$router.push("/home/login");
+              this.$router.push("/home");
             }, 1000);
           } else {
             this.res = "用户已存在";
