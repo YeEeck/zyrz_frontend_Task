@@ -4,7 +4,7 @@
       <ul class="side-list" style="padding-left: 0px">
         <li class="item" @click="gotoUesr">
           <a-icon type="user" />
-          个人信息
+          学生信息
         </li>
         <li class="item" @click="gotoStatus">
           <a-icon type="trophy" />
