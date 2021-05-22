@@ -1,11 +1,11 @@
 <template>
-  <div class="main_inner">test</div>
+  <div class="main_inner"></div>
 </template>
 
 <style>
 .main_inner {
-  margin-top: 20px;
-  background-color: white;
+  /* margin-top: 20px; */
+  /* background-color: white; */
 }
 </style>
 

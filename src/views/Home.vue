@@ -1,15 +1,17 @@
 <template>
-  <div class="main">
-    <div class="img_div">
-      <img class="login_img" src="../assets/LoginBackGround.png" />
-    </div>
-    <div class="home">
-      <h1>学生信息管理系统</h1>
-      <div id="navin">
-        <router-link to="/home">登录</router-link> |
-        <router-link to="/home/reg">注册</router-link>
+  <div class="home_view">
+    <div class="main">
+      <div class="img_div">
+        <img class="login_img" src="../assets/LoginBackGround.png" />
       </div>
-      <router-view />
+      <div class="home">
+        <h1>学生信息管理系统</h1>
+        <div id="navin">
+          <router-link to="/home">登录</router-link> |
+          <router-link to="/home/reg">注册</router-link>
+        </div>
+        <router-view />
+      </div>
     </div>
   </div>
 </template>
@@ -39,8 +41,15 @@ export default {
   color: rgb(24, 144, 255);
 }
 
+.home_view{
+  display: flex;
+  height: 90%;
+  align-items: center;
+  justify-content: center;
+}
+
 .main {
-  margin-top: 200px;
+  /* margin-top: 200px; */
   display: flex;
   align-items: center;
   justify-content: center;
