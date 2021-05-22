@@ -36,7 +36,20 @@ const routes = [
   {
     path: '/inner',
     name: 'Inner',
-    component: () => import('../views/inner/inner.vue')
+    component: () => import('../views/inner/inner.vue'),
+
+    children: [
+      {
+        path: '/inner/user',
+        name: 'User',
+        component: () => import('../views/inner/user.vue')
+      },
+      {
+        path: '/inner/status',
+        name: 'Status',
+        component: () => import('../views/inner/status.vue')
+      }
+    ]
   }
 ]
 

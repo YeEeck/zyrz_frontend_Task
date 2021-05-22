@@ -13,10 +13,6 @@
       placeholder="密码"
     /><br /><br />
     <a-button type="primary" @click="login">登录</a-button><br /><br />
-    <img v-if="loadingS" src="../assets/loading.gif" class="load_img" />
-    <div v-if="getLoadRes" v-bind:class="tipClass" class="res_tip">
-      {{ res }}
-    </div>
   </div>
 </template>
 
@@ -28,29 +24,31 @@ export default {
     return {
       username: "",
       password: "",
-      res: "",
-      tipClass: "normal_tip",
-      loadingS: false,
     };
   },
   methods: {
     login() {
+      const hide = this.$message.loading("正在登录...", 0);
       this.res = "";
       this.tipClass = "normal_tip";
       this.loadingS = true;
       PostTest({ username: this.username, password: this.password }).then(
         (res) => {
           if (res.data.status == "true") {
-            this.res = "登录成功";
-            this.tipClass = "right_tip";
-            this.loadingS = false;
+            // this.res = "登录成功";
+            // this.tipClass = "right_tip";
+            // this.loadingS = false;
+            setTimeout(hide, 0);
+            this.$message.success("登录成功");
             setTimeout(() => {
               this.$router.push("/inner");
             }, 1000);
           } else {
-            this.res = "用户名或密码错误";
-            this.tipClass = "error_tip";
-            this.loadingS = false;
+            // this.res = "用户名或密码错误";
+            // this.tipClass = "error_tip";
+            // this.loadingS = false;
+            setTimeout(hide, 0);
+            this.$message.error("用户名或密码错误");
           }
         }
       );

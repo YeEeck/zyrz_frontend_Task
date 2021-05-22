@@ -13,10 +13,6 @@
       placeholder="密码"
     /><br /><br />
     <a-button type="primary" @click="reg">注册</a-button><br /><br />
-    <img v-if="loadingS" src="../assets/loading.gif" class="load_img" />
-    <div v-if="getLoadRes" v-bind:class="tipClass" class="res_tip">
-      {{ res }}
-    </div>
   </div>
 </template>
 
@@ -28,13 +24,11 @@ export default {
     return {
       username: "",
       password: "",
-      res: "",
-      tipClass: "normal_tip",
-      loadingS: false,
     };
   },
   methods: {
     reg() {
+      const hide = this.$message.loading("正在注册...", 0);
       this.res = "";
       this.tipClass = "normal_tip";
       this.loadingS = true;
@@ -42,16 +36,20 @@ export default {
         (res) => {
           console.log(res);
           if (res.data.res != undefined) {
-            this.res = "注册成功,正在跳转...";
-            this.tipClass = "right_tip";
-            this.loadingS = false;
+            // this.res = "注册成功,正在跳转...";
+            // this.tipClass = "right_tip";
+            // this.loadingS = false;
+            setTimeout(hide, 0);
+            this.$message.success("注册成功,正在跳转...");
             setTimeout(() => {
               this.$router.push("/home");
             }, 1000);
           } else {
-            this.res = "用户已存在";
-            this.tipClass = "error_tip";
-            this.loadingS = false;
+            // this.res = "用户已存在";
+            // this.tipClass = "error_tip";
+            // this.loadingS = false;
+            setTimeout(hide, 0);
+            this.$message.error("用户名或密码错误");
           }
         }
       );

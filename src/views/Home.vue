@@ -41,7 +41,7 @@ export default {
   color: rgb(24, 144, 255);
 }
 
-.home_view{
+.home_view {
   display: flex;
   height: 90%;
   align-items: center;
@@ -63,8 +63,8 @@ export default {
 .img_div {
   background-color: #0099cc;
   padding: 50px;
-  padding-top: 95px;
-  padding-bottom: 95px;
+  padding-top: 85px;
+  padding-bottom: 85px;
 
   display: flex;
   justify-content: center;
@@ -77,7 +77,8 @@ export default {
   justify-content: baseline;
   align-items: center;
   padding: 50px;
-  padding-bottom: 10px;
+  padding-bottom: 60px;
+  padding-top: 60px;
   /* border-style: solid; */
 
   background-color: white;

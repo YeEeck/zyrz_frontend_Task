@@ -1,5 +1,10 @@
 <template>
-  <div class="main_inner"></div>
+  <div class="main_inner">
+    <side-bar />
+    <div class="inner_view">
+      <router-view />
+    </div>
+  </div>
 </template>
 
 <style>
@@ -10,9 +15,14 @@
 </style>
 
 <script>
+import SideBar from "../../components/content/SideBar";
+
 export default {
   inject: ["changeMainTabShow"],
 
+  components: {
+    SideBar,
+  },
   data() {
     return {};
   },
@@ -22,3 +32,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.inner_view {
+  margin-left: 13rem;
+}
+</style>

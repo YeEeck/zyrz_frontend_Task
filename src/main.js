@@ -1,14 +1,15 @@
 import Vue from 'vue'
-import { Button, Input, Menu } from 'ant-design-vue';
+import { Button, Input, message, Icon } from 'ant-design-vue';
 import App from './App.vue'
 import router from './router'
-import iView from 'iview';
-import 'iview/dist/styles/iview.css';
 
 Vue.component(Button.name, Button)
 Vue.component(Input.name, Input)
-Vue.component(Menu.name, Menu)
+Vue.component(Icon.name, Icon)
+// Vue.component(Menu.name, Menu)
 // Vue.component(Layout.name, Layout)
+
+Vue.prototype.$message = message;
 
 Vue.config.productionTip = false
 
