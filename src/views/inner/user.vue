@@ -6,6 +6,7 @@
       :visible="visible"
       :body-style="{ paddingBottom: '80px' }"
       @close="onClose"
+      class="user_drawer"
     >
       <a-input
         v-model="newName"
@@ -40,6 +41,7 @@
       :visible="visibleF"
       :body-style="{ paddingBottom: '80px' }"
       @close="onCloseF"
+      class="user_drawer"
     >
       <a-input
         v-model="fName"
@@ -66,6 +68,7 @@
       :visible="visibleE"
       :body-style="{ paddingBottom: '80px' }"
       @close="onCloseE"
+      class="user_drawer"
     >
       <a-input
         v-model="eName"
@@ -86,7 +89,6 @@
       <a-button type="primary" @click="editStudent">修改</a-button>
     </a-drawer>
 
-    <br />
     <div class="title_user">
       <h1 style="display: inline">学生信息</h1>
       <div class="inner_button_out">
@@ -106,6 +108,7 @@
         :pagination="pagination"
         :loading="loading"
         bordered
+        class="table1"
       >
         <p slot="tags" slot-scope="text" class="do_p">
           <a-button @click="edit(text)">编辑</a-button>
@@ -366,6 +369,10 @@ export default {
 </script>
 
 <style>
+.user_out {
+  padding-top: 1rem;
+}
+
 .table_out {
   width: 90%;
   margin-left: 5%;
@@ -393,10 +400,19 @@ export default {
 }
 
 .do_p {
+  margin-top: 7px;
+  margin-bottom: 7px;
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
 
-  height: 100%;
+.table1 .ant-table-tbody > tr > td {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.user_drawer {
+  text-align: center;
 }
 </style>
