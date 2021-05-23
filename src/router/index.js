@@ -40,6 +40,10 @@ const routes = [
 
     children: [
       {
+        path: '/inner',
+        redirect: '/inner/user'
+      },
+      {
         path: '/inner/user',
         name: 'User',
         component: () => import('../views/inner/user.vue')
@@ -50,7 +54,7 @@ const routes = [
         component: () => import('../views/inner/status.vue')
       }
     ]
-  }
+  },
 ]
 
 const router = new VueRouter({
