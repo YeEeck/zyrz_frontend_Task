@@ -47,3 +47,18 @@ export function editStudent({ name, type, age, sex, idNo, Sclass, _id }) {
         }
     });
 }
+
+export function fliterStudent({ name, type, age, sex, idNo, Sclass }) {
+    return request({
+        url: "/http/fliterStudent",
+        method: "POST",
+        data: {
+            name: name,
+            type: type,
+            age: age,
+            sex: sex,
+            idNo: idNo,
+            Sclass: Sclass
+        }
+    });
+}

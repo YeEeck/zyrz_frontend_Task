@@ -37,35 +37,27 @@
     <a-drawer
       title="筛选"
       :width="360"
-      :visible="visibleS"
+      :visible="visibleF"
       :body-style="{ paddingBottom: '80px' }"
-      @close="onCloseS"
+      @close="onCloseF"
     >
       <a-input
-        v-model="newName"
+        v-model="fName"
         placeholder="学生姓名"
         style="margin-bottom: 1rem"
       >
       </a-input>
-      <a-input v-model="newType" placeholder="专业" style="margin-bottom: 1rem">
+      <a-input v-model="fType" placeholder="专业" style="margin-bottom: 1rem">
       </a-input>
-      <a-input
-        v-model="newClass"
-        placeholder="班级"
-        style="margin-bottom: 1rem"
-      >
+      <a-input v-model="fClass" placeholder="班级" style="margin-bottom: 1rem">
       </a-input>
-      <a-input v-model="newAge" placeholder="年龄" style="margin-bottom: 1rem">
+      <a-input v-model="fAge" placeholder="年龄" style="margin-bottom: 1rem">
       </a-input>
-      <a-input v-model="newSex" placeholder="性别" style="margin-bottom: 1rem">
+      <a-input v-model="fSex" placeholder="性别" style="margin-bottom: 1rem">
       </a-input>
-      <a-input
-        v-model="newId"
-        placeholder="身份证号"
-        style="margin-bottom: 1rem"
-      >
+      <a-input v-model="fId" placeholder="身份证号" style="margin-bottom: 1rem">
       </a-input>
-      <a-button type="primary" @click="addStudentNew">筛选</a-button>
+      <a-button type="primary" @click="fliterStudent">筛选</a-button>
     </a-drawer>
 
     <a-drawer
@@ -98,7 +90,7 @@
     <div class="title_user">
       <h1 style="display: inline">学生信息</h1>
       <div class="inner_button_out">
-        <a-button type="primary" @click="showDrawerS" class="add_button">
+        <a-button type="primary" @click="showDrawerF" class="add_button">
           <a-icon type="search" />
         </a-button>
         <a-button type="primary" @click="showDrawer" class="add_button">
@@ -131,6 +123,7 @@ import {
   addStudent,
   delStudent,
   editStudent,
+  fliterStudent,
 } from "../../network/user";
 
 const columns = [
@@ -177,6 +170,7 @@ export default {
       visible: false,
       visibleS: false,
       visibleE: false,
+      visibleF: false,
       newName: "",
       newType: "",
       newClass: "",
@@ -190,6 +184,12 @@ export default {
       eSex: "",
       eId: "",
       e_id: "",
+      fName: "",
+      fType: "",
+      fClass: "",
+      fAge: "",
+      fSex: "",
+      fId: "",
     };
   },
   activated() {
@@ -204,7 +204,6 @@ export default {
     updateStudents() {
       this.loading = true;
       getStudents().then((res) => {
-        console.log(res.data);
         this.data = res.data;
         this.loading = false;
       });
@@ -226,6 +225,12 @@ export default {
     },
     onCloseE() {
       this.visibleE = false;
+    },
+    showDrawerF() {
+      this.visibleF = true;
+    },
+    onCloseF() {
+      this.visibleF = false;
     },
     addStudentNew() {
       const hide = this.$message.loading("正在添加...", 0);
@@ -333,6 +338,28 @@ export default {
           this.$message.error("网络连接异常");
         });
       this.visibleE = false;
+    },
+    fliterStudent() {
+      this.loading = true;
+      fliterStudent({
+        name: this.fName,
+        type: this.fType,
+        Sclass: this.fClass,
+        age: this.fAge,
+        sex: this.fSex,
+        idNo: this.fId,
+      })
+        .then((res) => {
+          console.log(res);
+          this.data = res.data.data;
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.$message.error(err);
+          this.$message.error("网络连接异常");
+          this.loading = false;
+        });
+      this.visibleF = false;
     },
   },
 };
