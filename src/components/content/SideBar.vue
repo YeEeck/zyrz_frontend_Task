@@ -42,9 +42,6 @@ export default {
       this.$router.push("/inner/status");
     },
   },
-  mounted() {
-    this.getLevel();
-  },
 };
 </script>
 

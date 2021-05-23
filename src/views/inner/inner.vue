@@ -2,7 +2,9 @@
   <div class="main_inner">
     <side-bar />
     <div class="inner_view">
-      <router-view />
+      <keep-alive>
+        <router-view />
+      </keep-alive>
     </div>
   </div>
 </template>
