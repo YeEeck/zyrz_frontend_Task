@@ -31,3 +31,19 @@ export function delStudent({ id }) {
         }
     });
 }
+
+export function editStudent({ name, type, age, sex, idNo, Sclass, _id }) {
+    return request({
+        url: "/http/editStudent",
+        method: "POST",
+        data: {
+            name: name,
+            type: type,
+            age: age,
+            sex: sex,
+            idNo: idNo,
+            Sclass: Sclass,
+            _id: _id
+        }
+    });
+}

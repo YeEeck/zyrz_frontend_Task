@@ -68,6 +68,32 @@
       <a-button type="primary" @click="addStudentNew">筛选</a-button>
     </a-drawer>
 
+    <a-drawer
+      title="编辑"
+      :width="360"
+      :visible="visibleE"
+      :body-style="{ paddingBottom: '80px' }"
+      @close="onCloseE"
+    >
+      <a-input
+        v-model="eName"
+        placeholder="学生姓名"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-input v-model="eType" placeholder="专业" style="margin-bottom: 1rem">
+      </a-input>
+      <a-input v-model="eClass" placeholder="班级" style="margin-bottom: 1rem">
+      </a-input>
+      <a-input v-model="eAge" placeholder="年龄" style="margin-bottom: 1rem">
+      </a-input>
+      <a-input v-model="eSex" placeholder="性别" style="margin-bottom: 1rem">
+      </a-input>
+      <a-input v-model="eId" placeholder="身份证号" style="margin-bottom: 1rem">
+      </a-input>
+      <a-button type="primary" @click="editStudent">修改</a-button>
+    </a-drawer>
+
     <br />
     <div class="title_user">
       <h1 style="display: inline">学生信息</h1>
@@ -89,8 +115,8 @@
         :loading="loading"
         bordered
       >
-        <p slot="tags" slot-scope="text, tags, i" class="do_p">
-          <a-button @click="edit(text, tags, i)">编辑</a-button>
+        <p slot="tags" slot-scope="text" class="do_p">
+          <a-button @click="edit(text)">编辑</a-button>
           &nbsp;&nbsp;
           <a-button @click="del(text)">删除</a-button>
         </p>
@@ -100,7 +126,12 @@
 </template>
 
 <script>
-import { getStudents, addStudent, delStudent } from "../../network/user";
+import {
+  getStudents,
+  addStudent,
+  delStudent,
+  editStudent,
+} from "../../network/user";
 
 const columns = [
   {
@@ -145,12 +176,20 @@ export default {
       loading: true,
       visible: false,
       visibleS: false,
+      visibleE: false,
       newName: "",
       newType: "",
       newClass: "",
       newAge: "",
       newSex: "",
       newId: "",
+      eName: "",
+      eType: "",
+      eClass: "",
+      eAge: "",
+      eSex: "",
+      eId: "",
+      e_id: "",
     };
   },
   activated() {
@@ -181,6 +220,12 @@ export default {
     },
     onCloseS() {
       this.visibleS = false;
+    },
+    showDrawerE() {
+      this.visibleE = true;
+    },
+    onCloseE() {
+      this.visibleE = false;
     },
     addStudentNew() {
       const hide = this.$message.loading("正在添加...", 0);
@@ -221,10 +266,15 @@ export default {
       this.newId = "";
     },
 
-    edit(a, b, c) {
-      console.log(a);
-      console.log(b);
-      console.log(c);
+    edit(a) {
+      this.eName = a.name;
+      this.eType = a.type;
+      this.eClass = a.Sclass;
+      this.eAge = a.age;
+      this.eSex = a.sex;
+      this.eId = a.idNo;
+      this.e_id = a._id;
+      this.showDrawerE();
     },
 
     del(text) {
@@ -253,6 +303,36 @@ export default {
         },
         onCancel() {},
       });
+    },
+
+    editStudent() {
+      const hide = this.$message.loading("正在提交修改...", 0);
+      editStudent({
+        name: this.eName,
+        type: this.eType,
+        Sclass: this.eClass,
+        age: this.eAge,
+        sex: this.eSex,
+        idNo: this.eId,
+        _id: this.e_id,
+      })
+        .then((res) => {
+          console.log(res);
+          if (res.data.success != false) {
+            setTimeout(hide, 0);
+            this.$message.success("修改成功");
+            this.updateStudents();
+          } else {
+            setTimeout(hide, 0);
+            this.$message.error("修改失败");
+          }
+        })
+        .catch((err) => {
+          setTimeout(hide, 0);
+          this.$message.error(err);
+          this.$message.error("网络连接异常");
+        });
+      this.visibleE = false;
     },
   },
 };
