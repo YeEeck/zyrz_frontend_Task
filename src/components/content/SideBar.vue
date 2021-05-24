@@ -14,7 +14,7 @@
           <a-icon type="schedule" />
           选课管理
         </li>
-        <li class="item" @click="gotoUesr">
+        <li class="item" @click="gotoExam">
           <a-icon type="read" />
           考务管理
         </li>
@@ -45,6 +45,9 @@ export default {
     gotoStatus() {
       this.$router.push("/inner/status");
     },
+    gotoExam() {
+      this.$router.push("/inner/exam");
+    }
   },
 };
 </script>

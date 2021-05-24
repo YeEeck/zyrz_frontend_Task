@@ -52,6 +52,11 @@ const routes = [
         path: '/inner/status',
         name: 'Status',
         component: () => import('../views/inner/status.vue')
+      },
+      {
+        path: '/inner/exam',
+        name: 'Exam',
+        component: ()=> import('../views/inner/exam/exam.vue')
       }
     ]
   },

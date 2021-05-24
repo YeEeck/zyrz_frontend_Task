@@ -587,7 +587,7 @@ export default {
     },
 
     updateData2() {
-      this.loading = true;
+      this.loading2 = true;
       getAbsence()
         .then((res) => {
           this.data2 = res.data;

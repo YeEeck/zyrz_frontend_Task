@@ -43,6 +43,7 @@ export default {
   height: 100%;
 }
 
+
 #nav {
   margin: 0 auto;
   padding: 10px;
