@@ -3,7 +3,12 @@
     <div class="title_user">
       <h1 style="display: inline">奖惩和缺勤情况</h1>
       <div class="status_button_out">
-        <a-button type="primary" @click="showDrawerF" class="add_button">
+        <a-button
+          v-if="search_show"
+          type="primary"
+          @click="showDrawerF"
+          class="add_button"
+        >
           <a-icon type="search" />
         </a-button>
         <a-button type="primary" @click="showDrawer" class="add_button">
@@ -11,7 +16,7 @@
         </a-button>
       </div>
     </div>
-
+    <!-- Tab1的记录 -->
     <a-drawer
       title="添加新记录"
       :width="360"
@@ -132,8 +137,95 @@
       </a-input>
       <a-button type="primary" @click="filterData">筛选</a-button>
     </a-drawer>
+    <!-- Tab1的记录 -->
 
-    <a-tabs default-active-key="1" size="large" class="status_tab">
+    <!-- Tab2的记录 -->
+    <a-drawer
+      title="添加新缺勤记录"
+      :width="360"
+      :visible="visible2"
+      :body-style="{ paddingBottom: '80px' }"
+      @close="onClose"
+      class="user_drawer"
+    >
+      <a-input
+        v-model="newName2"
+        placeholder="学生姓名"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-input
+        v-model="newType2"
+        placeholder="专业"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-input
+        v-model="newSclass2"
+        placeholder="班级"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-input
+        v-model="newidNo2"
+        placeholder="身份证号"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-input
+        v-model="newTime2"
+        placeholder="缺勤时间"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-button type="primary" @click="addData2">添加</a-button>
+    </a-drawer>
+
+    <a-drawer
+      title="编辑缺勤记录"
+      :width="360"
+      :visible="visibleE2"
+      :body-style="{ paddingBottom: '80px' }"
+      @close="onCloseE2"
+      class="user_drawer"
+    >
+      <a-input
+        v-model="eName2"
+        placeholder="学生姓名"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-input v-model="eType2" placeholder="专业" style="margin-bottom: 1rem">
+      </a-input>
+      <a-input
+        v-model="eSclass2"
+        placeholder="班级"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-input
+        v-model="eidNo2"
+        placeholder="身份证号"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-input
+        v-model="eTime2"
+        placeholder="缺勤时间"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-button type="primary" @click="editData2">添加</a-button>
+    </a-drawer>
+    <!-- Tab2的记录 -->
+
+    <a-tabs
+      default-active-key="1"
+      size="large"
+      class="status_tab"
+      :active-key="tab_key"
+      @change="tabChange"
+    >
       <a-tab-pane key="1" tab="奖惩情况"
         ><div class="status_table_out">
           <a-table
@@ -153,7 +245,22 @@
         </div>
       </a-tab-pane>
       <a-tab-pane key="2" tab="缺勤情况" force-render>
-        Content of Tab Pane 2
+        <div class="status_table_out">
+          <a-table
+            :columns="columns_status2"
+            :data-source="data2"
+            :pagination="pagination"
+            :loading="loading2"
+            bordered
+            class="table1"
+          >
+            <p slot="tags" slot-scope="text" class="do_p">
+              <a-button @click="edit2(text)">编辑</a-button>
+              &nbsp;&nbsp;
+              <a-button @click="del2(text)">删除</a-button>
+            </p>
+          </a-table>
+        </div>
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -166,6 +273,10 @@ import {
   delStatus,
   editStatus,
   fliterStatus,
+  getAbsence,
+  addAbsence,
+  delAbsence,
+  editAbsence,
 } from "../../network/status";
 
 const columns_status = [
@@ -201,18 +312,57 @@ const columns_status = [
     width: 180,
   },
 ];
+
+const columns_status2 = [
+  {
+    title: "学生姓名",
+    dataIndex: "name",
+    scopedSlots: { customRender: "name" },
+  },
+  {
+    title: "专业",
+    dataIndex: "type",
+  },
+  {
+    title: "班级",
+    dataIndex: "Sclass",
+  },
+  {
+    title: "身份证号",
+    dataIndex: "idNo",
+  },
+  {
+    title: "缺勤时间",
+    dataIndex: "time",
+  },
+  {
+    title: "操作",
+    scopedSlots: { customRender: "tags" },
+    width: 180,
+  },
+];
 export default {
   data() {
     return {
+      tab_key: "1",
+
       data: [],
+      data2: [],
       pagination: {
         pageSize: 10,
       },
+
       columns_status,
       loading: true,
       visible: false,
       visibleE: false,
       visibleF: false,
+
+      columns_status2,
+      loading2: true,
+      visible2: false,
+      visibleE2: false,
+
       newName: "",
       newType: "",
       newClass: "",
@@ -234,12 +384,38 @@ export default {
       fPType: "",
       fProject: "",
       fTime: "",
+
+      newName2: "",
+      newType2: "",
+      newSclass2: "",
+      newidNo2: "",
+      newTime2: "",
+
+      eName2: "",
+      eType2: "",
+      eSclass2: "",
+      eidNo2: "",
+      eTime2: "",
     };
+  },
+  computed: {
+    search_show() {
+      if (this.tab_key == "2") {
+        return false;
+      } else {
+        return true;
+      }
+    },
   },
   activated() {
     this.updateData();
+    this.updateData2();
   },
   methods: {
+    tabChange(key) {
+      this.tab_key = key;
+    },
+
     updateData() {
       this.loading = true;
       getStatus().then((res) => {
@@ -377,10 +553,18 @@ export default {
     },
 
     showDrawer() {
-      this.visible = true;
+      if (this.tab_key == 1) {
+        this.visible = true;
+      } else {
+        this.visible2 = true;
+      }
     },
     onClose() {
-      this.visible = false;
+      if (this.tab_key == 1) {
+        this.visible = false;
+      } else {
+        this.visible2 = false;
+      }
     },
     showDrawerE() {
       this.visibleE = true;
@@ -393,6 +577,129 @@ export default {
     },
     onCloseF() {
       this.visibleF = false;
+    },
+
+    showDrawerE2() {
+      this.visibleE2 = true;
+    },
+    onCloseE2() {
+      this.visibleE2 = false;
+    },
+
+    updateData2() {
+      this.loading = true;
+      getAbsence()
+        .then((res) => {
+          this.data2 = res.data;
+          this.loading2 = false;
+        })
+        .catch((err) => {
+          this.$message.error(err);
+          this.$message.error("网络连接异常");
+        });
+    },
+
+    addData2() {
+      const hide = this.$message.loading("正在添加...", 0);
+      addAbsence({
+        name: this.newName2,
+        type: this.newType2,
+        Sclass: this.newSclass2,
+        idNo: this.newidNo2,
+        time: this.newTime2,
+      })
+        .then((res) => {
+          if (res.data.success != false) {
+            setTimeout(hide, 0);
+            this.$message.success("添加成功");
+            this.updateData2();
+          } else {
+            setTimeout(hide, 0);
+            this.$message.error("添加失败");
+          }
+        })
+        .catch((err) => {
+          setTimeout(hide, 0);
+          this.$message.error(err);
+          console.log(err);
+          this.$message.error("添加失败，网络连接异常");
+        });
+      this.visible2 = false;
+      this.clear2();
+    },
+    clear2() {
+      this.newName2 = "";
+      this.newType2 = "";
+      this.newSclass2 = "";
+      this.newidNo2 = "";
+      this.newTime2 = "";
+    },
+
+    del2(text) {
+      let self = this;
+      this.$confirm({
+        title: "确定要删除这个学生吗？",
+        content: "该操作将不可恢复，请谨慎操作",
+        onOk() {
+          const hide = self.$message.loading("正在删除...", 0);
+          delAbsence({ id: text._id })
+            .then((res) => {
+              setTimeout(hide, 0);
+              if (res.data.deleted == 1) {
+                self.$message.success("删除成功");
+              } else {
+                self.$message.error("删除失败");
+              }
+              self.updateData2();
+            })
+            .catch((err) => {
+              setTimeout(hide, 0);
+              self.$message.error(err);
+              self.$message.error("连接异常");
+              self.updateData2();
+            });
+        },
+        onCancel() {},
+      });
+    },
+
+    edit2(text) {
+      this.eName2 = text.name;
+      this.eType2 = text.type;
+      this.eSclass2 = text.Sclass;
+      this.eidNo2 = text.idNo;
+      this.eTime2 = text.time;
+      this.e_id = text._id;
+      this.showDrawerE2();
+    },
+
+    editData2() {
+      const hide = this.$message.loading("正在提交修改...", 0);
+      editAbsence({
+        name: this.eName2,
+        type: this.eType2,
+        Sclass: this.eSclass2,
+        idNo: this.eidNo2,
+        time: this.eTime2,
+        _id: this.e_id,
+      })
+        .then((res) => {
+          console.log(res);
+          if (res.data.success != false) {
+            setTimeout(hide, 0);
+            this.$message.success("修改成功");
+            this.updateData2();
+          } else {
+            setTimeout(hide, 0);
+            this.$message.error("修改失败");
+          }
+        })
+        .catch((err) => {
+          setTimeout(hide, 0);
+          this.$message.error(err);
+          this.$message.error("网络连接异常");
+        });
+      this.visibleE2 = false;
     },
   },
 };

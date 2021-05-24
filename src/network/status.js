@@ -78,3 +78,58 @@ export function fliterStatus({ name,
         }
     });
 }
+
+export function getAbsence() {
+    return request({
+        url: "/http/getAbsence",
+        method: "GET",
+    });
+}
+
+export function addAbsence({ name,
+    type,
+    Sclass,
+    idNo,
+    time }) {
+    return request({
+        url: "/http/addAbsence",
+        method: "POST",
+        data: {
+            name: name,
+            type: type,
+            Sclass: Sclass,
+            idNo: idNo,
+            time: time
+        }
+    });
+}
+
+export function delAbsence({ id }) {
+    return request({
+        url: "/http/delAbsence",
+        method: "POST",
+        data: {
+            id: id
+        }
+    });
+}
+
+export function editAbsence({ name,
+    type,
+    Sclass,
+    idNo,
+    time,
+    _id }) {
+    return request({
+        url: "/http/editAbsence",
+        method: "POST",
+        data: {
+            name: name,
+            type: type,
+            Sclass: Sclass,
+            idNo: idNo,
+            time: time,
+            _id: _id
+        }
+    });
+}
