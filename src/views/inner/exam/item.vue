@@ -2,7 +2,7 @@
   <div class="exam_item_container">
     <span class="item_title">标题</span>
     <a-tag color="blue" class="exam_tip">tip</a-tag>
-    <span>考试地点:<span>dist</span></span>
+    <span class="">考试地点:<span>dist</span></span>
     <span>考试时间:<span>dist</span></span>
     <span>监考老师:<span>dist</span></span>
   </div>
@@ -11,11 +11,10 @@
 <script>
 export default {
   name: "exam-item",
-  props:{
-      title: String,
-      tip: String,
-      
-  }
+  props: {
+    title: String,
+    tip: String,
+  },
 };
 </script>
 
@@ -28,18 +27,20 @@ export default {
 
   width: 20rem;
 
-  padding: 1rem;
+  padding: 2rem;
 
   background-color: white;
 
   box-shadow: lightgray 1px 1px 5px;
 }
-.item_title{
-    /* text-align: left; */
-    font-size: larger;
-    font-weight: bold;
+.item_title {
+  /* text-align: left; */
+  font-size: larger;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
-.exam_tip{
-    width: fit-content;
+.exam_tip {
+  width: fit-content;
+  margin-bottom: 0.5rem;
 }
 </style>
