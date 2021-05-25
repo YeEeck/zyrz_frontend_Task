@@ -1,4 +1,4 @@
-# project_test
+# zyrz_frontend_Task
 https://yeeeck.github.io/zyrz_frontend_Task/
 ## Project setup
 ```
