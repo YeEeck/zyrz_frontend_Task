@@ -1,10 +1,10 @@
 <template>
   <div class="exam_item_container">
-    <span class="item_title">标题</span>
-    <a-tag color="blue" class="exam_tip">tip</a-tag>
-    <span class="">考试地点:<span>dist</span></span>
-    <span>考试时间:<span>dist</span></span>
-    <span>监考老师:<span>dist</span></span>
+    <span class="item_title">{{title}}</span>
+    <a-tag color="blue" class="exam_tip">{{tip}}</a-tag>
+    <span class="exam_sub">考试地点:<span>{{area}}</span></span>
+    <span class="exam_sub">考试时间:<span>{{time}}</span></span>
+    <span class="exam_sub">监考老师:<span>{{teacher}}</span></span>
   </div>
 </template>
 
@@ -14,6 +14,9 @@ export default {
   props: {
     title: String,
     tip: String,
+    area: String,
+    time: String,
+    teacher: String,
   },
 };
 </script>
@@ -25,9 +28,10 @@ export default {
   justify-content: flex-start;
   align-items: flex-start;
 
-  width: 20rem;
+  width: 32%;
 
-  padding: 2rem;
+  padding: 1rem;
+  padding-left: 2rem;
 
   background-color: white;
 
@@ -42,5 +46,10 @@ export default {
 .exam_tip {
   width: fit-content;
   margin-bottom: 0.5rem;
+}
+
+.exam_sub {
+  font-size: smaller;
+  margin-bottom: 1px;
 }
 </style>
