@@ -12,7 +12,9 @@
       >监考老师:<span>{{ teacher }}</span></span
     >
     <div class="exam_bottom_bar">
-      <a-button type="primary" class="bottom_bar_button">编辑</a-button>
+      <a-button type="primary" class="bottom_bar_button" @click="edit"
+        >编辑</a-button
+      >
       <a-button type="primary" @click="del">删除</a-button>
     </div>
     <input type="text" v-model="id" v-show="false" />
@@ -33,6 +35,11 @@ export default {
   },
   data() {
     return {
+      etitle: this.title,
+      etip: this.tip,
+      earea: this.area,
+      etime: this.time,
+      eteacher: this.teacher,
       Gid: this.id,
     };
   },
@@ -62,6 +69,16 @@ export default {
             });
         },
         onCancel() {},
+      });
+    },
+    edit() {
+      this.$parent.edit({
+        title: this.etitle,
+        tip: this.etip,
+        area: this.earea,
+        time: this.etime,
+        teacher: this.eteacher,
+        id: this.Gid,
       });
     },
   },

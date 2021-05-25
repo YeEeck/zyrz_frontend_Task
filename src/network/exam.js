@@ -35,24 +35,22 @@ export function delExam({ id }) {
     });
 }
 
-export function editExam({
-    eTitle,
-    eTip,
-    eArea,
-    eTime,
-    eTeacher,
-    id
-}) {
+export function editExam({ title,
+    tip,
+    area,
+    time,
+    teacher,
+    _id }) {
     return request({
         url: "/http/editExam",
         method: "POST",
         data: {
-            title: eTitle,
-            tip: eTip,
-            area: eArea,
-            time: eTime,
-            teacher: eTeacher,
-            _id: id
+            title: title,
+            tip: tip,
+            area: area,
+            time: time,
+            teacher: teacher,
+            _id: _id
         }
     });
 }

@@ -126,6 +126,8 @@ export default {
       visible: false,
       visibleE: false,
 
+      flush: true,
+
       newTitle: "",
       newTip: "",
       newArea: "",
@@ -137,6 +139,7 @@ export default {
       eArea: "",
       eTime: "",
       eTeacher: "",
+      e_id: "",
     };
   },
   activated() {
@@ -160,15 +163,23 @@ export default {
           this.$message.error("网络连接异常");
         });
     },
-    editData(){
+    edit(text) {
+      this.eTitle = text.title;
+      this.eTip = text.tip;
+      this.eArea = text.area;
+      this.eTime = text.time;
+      this.eTeacher = text.teacher;
+      this.e_id = text.id;
+      this.showDrawerE();
+    },
+    editData() {
       const hide = this.$message.loading("正在提交修改...", 0);
       editExam({
-        name: this.eName,
-        type: this.eType,
-        Sclass: this.eClass,
-        pType: this.ePType,
-        project: this.eProject,
+        title: this.eTitle,
+        tip: this.eTip,
+        area: this.eArea,
         time: this.eTime,
+        teacher: this.eTeacher,
         _id: this.e_id,
       })
         .then((res) => {
@@ -176,7 +187,8 @@ export default {
           if (res.data.success != false) {
             setTimeout(hide, 0);
             this.$message.success("修改成功");
-            this.updateData();
+            //传入子组件的参数赋值给data后不会动态更新，导致编辑drawer中文本框不会跟随更新。重刷页面或重加载组件可以重新赋值。这里直接重刷了页面。
+            this.$router.go(0);
           } else {
             setTimeout(hide, 0);
             this.$message.error("修改失败");
@@ -194,6 +206,12 @@ export default {
     },
     onClose() {
       this.visible = false;
+    },
+    showDrawerE() {
+      this.visibleE = true;
+    },
+    onCloseE() {
+      this.visibleE = false;
     },
     addData() {
       const hide = this.$message.loading("正在添加...", 0);
