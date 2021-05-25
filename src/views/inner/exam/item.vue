@@ -59,7 +59,8 @@ export default {
               } else {
                 self.$message.error("删除失败");
               }
-              self.$parent.updateData();
+              // self.$parent.updateData();
+              self.$emit("upData");
             })
             .catch((err) => {
               setTimeout(hide, 0);
@@ -72,7 +73,16 @@ export default {
       });
     },
     edit() {
-      this.$parent.edit({
+      // this.$parent.edit({
+      //   title: this.etitle,
+      //   tip: this.etip,
+      //   area: this.earea,
+      //   time: this.etime,
+      //   teacher: this.eteacher,
+      //   id: this.Gid,
+      // });
+
+      this.$emit("refreshData", {
         title: this.etitle,
         tip: this.etip,
         area: this.earea,

@@ -729,10 +729,21 @@ export default {
 .status_container {
   padding-top: 1rem;
   text-align: left;
+
+  background-color: rgb(245, 245, 245);
+
+  position: fixed;
+  left: 13rem;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 .status_tab {
   margin-left: 5%;
   width: 90%;
+}
+.status_tab td {
+  background-color: white;
 }
 
 .do_p {

@@ -84,11 +84,54 @@
     </a-drawer>
     <!-- 抽屉 -->
 
+    <!-- 抽屉2 -->
+    <a-drawer
+      title="记录新成绩"
+      :width="360"
+      :visible="visible2"
+      :body-style="{ paddingBottom: '80px' }"
+      @close="onClose2"
+      class="user_drawer"
+    >
+      <a-input
+        v-model="name2"
+        placeholder="学生姓名"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-input v-model="type2" placeholder="专业" style="margin-bottom: 1rem">
+      </a-input>
+      <a-input v-model="Sclass2" placeholder="班级" style="margin-bottom: 1rem">
+      </a-input>
+      <a-input
+        v-model="idNo2"
+        placeholder="身份证号"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-input v-model="exam2" placeholder="考试名" style="margin-bottom: 1rem">
+      </a-input>
+      <a-input
+        v-model="score2"
+        placeholder="考试成绩"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-input
+        v-model="time2"
+        placeholder="登分时间"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-button type="primary" @click="addData2">新建</a-button>
+    </a-drawer>
+    <!-- 抽屉2 -->
+
     <div class="exam_top_bar">
       <h1 style="display: inline">考务管理</h1>
       <div class="exam_topbar_button_out">
         <a-button type="primary" @click="showDrawer" class="add_button">
-          <a-icon type="plus" /> New Exam
+          <a-icon type="plus" /> {{ addText }}
         </a-button>
       </div>
     </div>
@@ -114,19 +157,78 @@
               :teacher="item.teacher"
               :id="item._id"
               :key="index"
+              @refreshData="edit"
+              @upData="updateData"
             ></exam-item>
           </div>
         </div>
       </a-tab-pane>
-      <a-tab-pane key="2" tab="成绩管理" force-render> </a-tab-pane>
+      <a-tab-pane key="2" tab="成绩管理" force-render>
+        <div class="exam_table_out2">
+          <a-table
+            :columns="columns_status"
+            :data-source="data_score"
+            :pagination="pagination"
+            :loading="loading2"
+            bordered
+            class="table1"
+          >
+            <p slot="tags" slot-scope="text" class="do_p">
+              <a-button @click="del2(text)">删除</a-button>
+            </p>
+          </a-table>
+        </div>
+      </a-tab-pane>
     </a-tabs>
   </div>
 </template>
 
 <script>
 import examItem from "./item";
-import { getExam, addExam, editExam } from "../../../network/exam";
-
+import {
+  getExam,
+  addExam,
+  editExam,
+  getScore,
+  addScore,
+  delScore,
+} from "../../../network/exam";
+const columns_status = [
+  {
+    title: "学生姓名",
+    dataIndex: "name",
+    scopedSlots: { customRender: "name" },
+  },
+  {
+    title: "专业",
+    dataIndex: "type",
+  },
+  {
+    title: "班级",
+    dataIndex: "Sclass",
+  },
+  {
+    title: "身份证号",
+    dataIndex: "idNo",
+  },
+  {
+    title: "考试",
+    dataIndex: "exam",
+  },
+  {
+    title: "成绩",
+    dataIndex: "score",
+  },
+  {
+    title: "记录时间",
+    dataIndex: "time",
+  },
+  {
+    title: "操作",
+    scopedSlots: { customRender: "tags" },
+    width: 90,
+  },
+];
 export default {
   components: {
     examItem,
@@ -134,8 +236,14 @@ export default {
 
   data() {
     return {
+      pagination: {
+        pageSize: 10,
+      },
+      addText: "New Exam",
+      columns_status,
       loading: true,
       list: [],
+      data_score: [],
       visible: false,
       visibleE: false,
 
@@ -155,14 +263,35 @@ export default {
       eTime: "",
       eTeacher: "",
       e_id: "",
+
+      loading2: true,
+      visible2: false,
+
+      name2: "",
+      type2: "",
+      Sclass2: "",
+      idNo2: "",
+      exam2: "",
+      score2: "",
+      time2: "",
     };
   },
   activated() {
     this.updateData();
+    this.updateData2();
   },
   computed: {
     fLoading() {
       return !this.loading;
+    },
+  },
+  watch: {
+    tab_key: function (val) {
+      if (val == 1) {
+        this.addText = "New Exam";
+      } else {
+        this.addText = "New Score";
+      }
     },
   },
   methods: {
@@ -220,7 +349,11 @@ export default {
       this.visibleE = false;
     },
     showDrawer() {
-      this.visible = true;
+      if (this.tab_key == 1) {
+        this.visible = true;
+      } else {
+        this.visible2 = true;
+      }
     },
     onClose() {
       this.visible = false;
@@ -230,6 +363,9 @@ export default {
     },
     onCloseE() {
       this.visibleE = false;
+    },
+    onClose2() {
+      this.visible2 = false;
     },
     addData() {
       const hide = this.$message.loading("正在添加...", 0);
@@ -266,6 +402,87 @@ export default {
       this.newArea = "";
       this.newTime = "";
       this.newTeacher = "";
+    },
+
+    updateData2() {
+      this.loading2 = true;
+      getScore()
+        .then((res) => {
+          this.data_score = res.data;
+          this.loading2 = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$message.error("网络连接异常");
+        });
+    },
+
+    addData2() {
+      const hide = this.$message.loading("正在添加...", 0);
+      addScore({
+        name: this.name2,
+        type: this.type2,
+        Sclass: this.Sclass2,
+        idNo: this.idNo2,
+        exam: this.exam2,
+        score: this.score2,
+        time: this.time2,
+      })
+        .then((res) => {
+          if (res.data.success != false) {
+            setTimeout(hide, 0);
+            this.$message.success("添加成功");
+            this.updateData2();
+          } else {
+            setTimeout(hide, 0);
+            this.$message.error("添加失败");
+          }
+        })
+        .catch((err) => {
+          setTimeout(hide, 0);
+          this.$message.error(err);
+          console.log(err);
+          this.$message.error("添加失败，网络连接异常");
+        });
+      this.visible2 = false;
+      this.clear2();
+    },
+    clear2() {
+      this.name2 = "";
+      this.type2 = "";
+      this.Sclass2 = "";
+      this.idNo2 = "";
+      this.exam2 = "";
+      this.score2 = "";
+      this.time2 = "";
+    },
+
+    del2(text) {
+      let self = this;
+      this.$confirm({
+        title: "确定要删除这个学生吗？",
+        content: "该操作将不可恢复，请谨慎操作",
+        onOk() {
+          const hide = self.$message.loading("正在删除...", 0);
+          delScore({ id: text._id })
+            .then((res) => {
+              setTimeout(hide, 0);
+              if (res.data.deleted == 1) {
+                self.$message.success("删除成功");
+              } else {
+                self.$message.error("删除失败");
+              }
+              self.updateData2();
+            })
+            .catch((err) => {
+              setTimeout(hide, 0);
+              self.$message.error(err);
+              self.$message.error("连接异常");
+              self.updateData2();
+            });
+        },
+        onCancel() {},
+      });
     },
   },
 };
@@ -331,5 +548,22 @@ export default {
 .exam_tab {
   width: 90%;
   text-align: left;
+}
+.exam_table_out2 td {
+  background-color: white;
+}
+.table1 .ant-table-tbody > tr > td {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.do_p {
+  margin-top: 7px;
+  margin-bottom: 7px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.user_drawer {
+  text-align: center;
 }
 </style>

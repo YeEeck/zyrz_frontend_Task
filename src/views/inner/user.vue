@@ -371,6 +371,14 @@ export default {
 <style>
 .user_out {
   padding-top: 1rem;
+
+  background-color: rgb(245, 245, 245);
+
+  position: fixed;
+  left: 13rem;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 
 .table_out {
@@ -379,6 +387,9 @@ export default {
   height: 90%;
 }
 
+.table_out td {
+  background-color: white;
+}
 .title_user {
   text-align: left;
   margin-left: 5%;
