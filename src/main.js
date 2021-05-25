@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Button, Input, message, Icon, Table, Drawer, Divider, Modal, Tabs, Tag } from 'ant-design-vue';
+import { Button, Input, message, Icon, Table, Drawer, Divider, Modal, Tabs, Tag, Skeleton } from 'ant-design-vue';
 import App from './App.vue'
 import router from './router'
 
@@ -12,6 +12,7 @@ Vue.component(Divider.name, Divider)
 Vue.component(Modal.name, Modal)
 Vue.component(Tabs.name, Tabs)
 Vue.component(Tag.name, Tag)
+Vue.component(Skeleton.name, Skeleton)
 // Vue.component(Menu.name, Menu)
 // Vue.component(Layout.name, Layout)
 Vue.use(Modal);

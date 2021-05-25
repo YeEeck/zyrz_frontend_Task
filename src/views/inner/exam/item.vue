@@ -1,14 +1,26 @@
 <template>
   <div class="exam_item_container">
-    <span class="item_title">{{title}}</span>
-    <a-tag color="blue" class="exam_tip">{{tip}}</a-tag>
-    <span class="exam_sub">考试地点:<span>{{area}}</span></span>
-    <span class="exam_sub">考试时间:<span>{{time}}</span></span>
-    <span class="exam_sub">监考老师:<span>{{teacher}}</span></span>
+    <span class="item_title">{{ title }}</span>
+    <a-tag color="blue" class="exam_tip">{{ tip }}</a-tag>
+    <span class="exam_sub"
+      >考试地点:<span>{{ area }}</span></span
+    >
+    <span class="exam_sub"
+      >考试时间:<span>{{ time }}</span></span
+    >
+    <span class="exam_sub"
+      >监考老师:<span>{{ teacher }}</span></span
+    >
+    <div class="exam_bottom_bar">
+      <a-button type="primary" class="bottom_bar_button">编辑</a-button>
+      <a-button type="primary" @click="del">删除</a-button>
+    </div>
+    <input type="text" v-model="id" v-show="false" />
   </div>
 </template>
 
 <script>
+import { delExam } from "../../../network/exam";
 export default {
   name: "exam-item",
   props: {
@@ -17,6 +29,41 @@ export default {
     area: String,
     time: String,
     teacher: String,
+    id: String,
+  },
+  data() {
+    return {
+      Gid: this.id,
+    };
+  },
+  methods: {
+    del() {
+      let self = this;
+      this.$confirm({
+        title: "确定要删除该考试吗？",
+        content: "该操作将不可恢复，请谨慎操作",
+        onOk() {
+          const hide = self.$message.loading("正在删除...", 0);
+          delExam({ id: self.Gid })
+            .then((res) => {
+              setTimeout(hide, 0);
+              if (res.data.deleted == 1) {
+                self.$message.success("删除成功");
+              } else {
+                self.$message.error("删除失败");
+              }
+              self.$parent.updateData();
+            })
+            .catch((err) => {
+              setTimeout(hide, 0);
+              self.$message.error(err);
+              self.$message.error("连接异常");
+              self.$parent.updateData();
+            });
+        },
+        onCancel() {},
+      });
+    },
   },
 };
 </script>
@@ -36,6 +83,9 @@ export default {
   background-color: white;
 
   box-shadow: lightgray 1px 1px 5px;
+
+  margin-bottom: 1rem;
+  margin-right: 1.2%;
 }
 .item_title {
   /* text-align: left; */
@@ -51,5 +101,19 @@ export default {
 .exam_sub {
   font-size: smaller;
   margin-bottom: 1px;
+}
+
+.exam_bottom_bar {
+  height: 1rem;
+  width: 100%;
+
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+  margin-top: 5px;
+}
+
+.bottom_bar_button {
+  margin-right: 10px;
 }
 </style>

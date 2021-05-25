@@ -10,7 +10,7 @@
         <a-icon type="search" />
       </a-button>
       <a-button type="primary" @click="showDrawer" class="add_button">
-        <a-icon type="plus" /> New Record
+        <a-icon type="plus" /> New Exam
       </a-button>
     </div>
   </div>
