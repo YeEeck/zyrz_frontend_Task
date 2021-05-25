@@ -93,20 +93,33 @@
       </div>
     </div>
 
-    <div class="items_list">
-      <a-skeleton active v-show="loading" :paragraph="{ rows: 5 }" />
-      <exam-item
-        v-for="(item, index) in list"
-        v-show="fLoading"
-        :title="item.title"
-        :tip="item.tip"
-        :area="item.area"
-        :time="item.time"
-        :teacher="item.teacher"
-        :id="item._id"
-        :key="index"
-      ></exam-item>
-    </div>
+    <a-tabs
+      default-active-key="1"
+      size="large"
+      class="exam_tab"
+      :active-key="tab_key"
+      @change="tabChange"
+    >
+      <a-tab-pane key="1" tab="考试管理"
+        ><div class="exam_table_out">
+          <div class="items_list">
+            <a-skeleton active v-show="loading" :paragraph="{ rows: 5 }" />
+            <exam-item
+              v-for="(item, index) in list"
+              v-show="fLoading"
+              :title="item.title"
+              :tip="item.tip"
+              :area="item.area"
+              :time="item.time"
+              :teacher="item.teacher"
+              :id="item._id"
+              :key="index"
+            ></exam-item>
+          </div>
+        </div>
+      </a-tab-pane>
+      <a-tab-pane key="2" tab="成绩管理" force-render> </a-tab-pane>
+    </a-tabs>
   </div>
 </template>
 
@@ -125,6 +138,8 @@ export default {
       list: [],
       visible: false,
       visibleE: false,
+
+      tab_key: "1",
 
       flush: true,
 
@@ -151,6 +166,9 @@ export default {
     },
   },
   methods: {
+    tabChange(key) {
+      this.tab_key = key;
+    },
     updateData() {
       this.loading = true;
       getExam()
@@ -277,8 +295,8 @@ export default {
 }
 
 .items_list {
-  padding-left: 4%;
-  padding-right: 5%;
+  padding-left: 1rem;
+  /* padding-right: 5%; */
 
   width: 100%;
 
@@ -309,5 +327,9 @@ export default {
 .add_button {
   display: inline-block;
   margin-right: 5%;
+}
+.exam_tab {
+  width: 90%;
+  text-align: left;
 }
 </style>

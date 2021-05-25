@@ -100,10 +100,17 @@ export default {
   background-color: white;
 
   box-shadow: lightgray 1px 1px 5px;
+  transition: box-shadow 0.5s;
 
   margin-bottom: 1rem;
   margin-right: 1.2%;
 }
+
+.exam_item_container:hover {
+  box-shadow: rgb(190, 190, 190) 1px 1px 15px;
+  transition: box-shadow 0.5s;
+}
+
 .item_title {
   /* text-align: left; */
   font-size: larger;
