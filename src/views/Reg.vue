@@ -49,7 +49,7 @@ export default {
             // this.tipClass = "error_tip";
             // this.loadingS = false;
             setTimeout(hide, 0);
-            this.$message.error("用户名或密码错误");
+            this.$message.error("用户已存在或接口已被关闭");
           }
         }
       );
