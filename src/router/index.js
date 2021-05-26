@@ -57,6 +57,11 @@ const routes = [
         path: '/inner/exam',
         name: 'Exam',
         component: ()=> import('../views/inner/exam/exam.vue')
+      },
+      {
+        path: '/inner/class',
+        name: 'Class',
+        component: ()=> import('../views/inner/class/class.vue')
       }
     ]
   },

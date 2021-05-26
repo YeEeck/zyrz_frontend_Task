@@ -10,7 +10,7 @@
           <a-icon type="trophy" />
           奖惩和缺勤情况
         </li>
-        <li class="item" @click="gotoUesr">
+        <li class="item" @click="gotoClass">
           <a-icon type="schedule" />
           选课管理
         </li>
@@ -47,7 +47,10 @@ export default {
     },
     gotoExam() {
       this.$router.push("/inner/exam");
-    }
+    },
+    gotoClass() {
+      this.$router.push("/inner/class");
+    },
   },
 };
 </script>
