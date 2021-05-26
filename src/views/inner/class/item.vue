@@ -1,5 +1,5 @@
 <template>
-    <div class="exam_item_container">
+  <div class="exam_item_container">
     <span class="item_title">{{ title }}</span>
     <a-tag color="blue" class="exam_tip">{{ tip }}</a-tag>
     <span class="exam_sub"
