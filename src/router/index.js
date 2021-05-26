@@ -12,12 +12,18 @@ const routes = [
       {
         path: '/home',
         name: 'Login',
-        component: () => import('../views/Login.vue')
+        component: () => import('../views/Login.vue'),
+        meta: {
+          title: '登录'
+        }
       },
       {
         path: '/home/reg',
         name: 'Reg',
-        component: () => import('../views/Reg.vue')
+        component: () => import('../views/Reg.vue'),
+        meta: {
+          title: '注册'
+        }
       }
     ],
     component: Home
@@ -28,7 +34,10 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    meta: {
+      title: '学生信息管理系统'
+    }
   }, {
     path: '/',
     redirect: '/home'
@@ -46,22 +55,34 @@ const routes = [
       {
         path: '/inner/user',
         name: 'User',
-        component: () => import('../views/inner/user.vue')
+        component: () => import('../views/inner/user.vue'),
+        meta: {
+          title: '学生信息'
+        }
       },
       {
         path: '/inner/status',
         name: 'Status',
-        component: () => import('../views/inner/status.vue')
+        component: () => import('../views/inner/status.vue'),
+        meta: {
+          title: '奖惩和缺勤情况'
+        }
       },
       {
         path: '/inner/exam',
         name: 'Exam',
-        component: ()=> import('../views/inner/exam/exam.vue')
+        component: () => import('../views/inner/exam/exam.vue'),
+        meta: {
+          title: '考务管理'
+        }
       },
       {
         path: '/inner/class',
         name: 'Class',
-        component: ()=> import('../views/inner/class/class.vue')
+        component: () => import('../views/inner/class/class.vue'),
+        meta: {
+          title: '选课管理'
+        }
       }
     ]
   },
