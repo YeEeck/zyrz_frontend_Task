@@ -18,7 +18,7 @@
           <a-icon type="read" />
           考务管理
         </li>
-        <li class="item" @click="gotoUesr">
+        <li class="item" @click="gotoDepartment">
           <a-icon type="team" />
           院系管理
         </li>
@@ -50,6 +50,9 @@ export default {
     },
     gotoClass() {
       this.$router.push("/inner/class");
+    },
+    gotoDepartment() {
+      this.$router.push("/inner/department");
     },
   },
 };

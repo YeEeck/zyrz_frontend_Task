@@ -1,15 +1,20 @@
 <template>
   <div class="exam_item_container">
     <span class="item_title">{{ title }}</span>
-    <a-tag color="blue" class="exam_tip">{{ tip }}</a-tag>
-    <span class="exam_sub"
-      >上课地点:<span>{{ area }}</span></span
+    <span class="depart_sub_title"
+      >专业列表:</span
     >
+    <div class="depart_tag_container"
+        ><a-tag
+          color="blue"
+          class="exam_tip"
+          v-for="(item, index) in type"
+          :key="index"
+          >{{ item }}</a-tag
+        ></div
+      >
     <span class="exam_sub"
-      >上课时间:<span>{{ time }}</span></span
-    >
-    <span class="exam_sub"
-      >任课老师:<span>{{ teacher }}</span></span
+      >院长:<span>{{ teacher }}</span></span
     >
     <div class="exam_bottom_bar">
       <a-button type="primary" class="bottom_bar_button" @click="edit"
@@ -22,23 +27,19 @@
 </template>
 
 <script>
-import { delClass } from "../../../network/class";
+import { delDepartment } from '../../../network/department';
 export default {
   name: "class-item",
   props: {
     title: String,
-    tip: String,
-    area: String,
-    time: String,
+    type: String,
     teacher: String,
     id: String,
   },
   data() {
     return {
       etitle: this.title,
-      etip: this.tip,
-      earea: this.area,
-      etime: this.time,
+      etype: this.type,
       eteacher: this.teacher,
       Gid: this.id,
     };
@@ -51,7 +52,7 @@ export default {
         content: "该操作将不可恢复，请谨慎操作",
         onOk() {
           const hide = self.$message.loading("正在删除...", 0);
-          delClass({ id: self.Gid })
+          delDepartment({ id: self.Gid })
             .then((res) => {
               setTimeout(hide, 0);
               if (res.data.deleted == 1) {
@@ -84,9 +85,7 @@ export default {
 
       this.$emit("refreshData", {
         title: this.etitle,
-        tip: this.etip,
-        area: this.earea,
-        time: this.etime,
+        type: this.etype,
         teacher: this.eteacher,
         id: this.Gid,
       });
@@ -149,5 +148,19 @@ export default {
 
 .bottom_bar_button {
   margin-right: 10px;
+}
+
+.depart_sub_title{
+  font-size: small;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.depart_tag_container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: left;
+  align-items: center;
 }
 </style>

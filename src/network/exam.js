@@ -99,3 +99,47 @@ export function delScore({ id }) {
         }
     });
 }
+
+export function getpaScore() {
+    return request({
+        url: "/http/pascore",
+        method: "POST",
+        data: {
+            mtype: "1"
+        }
+    });
+}
+
+export function addpaScore({ name,
+    type,
+    Sclass,
+    idNo,
+    exam,
+    score,
+    time }) {
+    return request({
+        url: "/http/pascore",
+        method: "POST",
+        data: {
+            mtype: "2",
+            name: name,
+            type: type,
+            Sclass: Sclass,
+            idNo: idNo,
+            exam: exam,
+            score: score,
+            time: time
+        }
+    });
+}
+
+export function delpaScore({ id }) {
+    return request({
+        url: "/http/pascore",
+        method: "POST",
+        data: {
+            mtype: "3",
+            id: id
+        }
+    });
+}

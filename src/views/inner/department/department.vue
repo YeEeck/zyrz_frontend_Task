@@ -15,25 +15,13 @@
         style="margin-bottom: 1rem"
       >
       </a-input>
-      <a-input v-model="tip" placeholder="课程类型" style="margin-bottom: 1rem">
-      </a-input>
       <a-input
-        v-model="area"
-        placeholder="上课地点"
+        v-model="type"
+        placeholder="专业类别(用英文逗号分隔)"
         style="margin-bottom: 1rem"
       >
       </a-input>
-      <a-input
-        v-model="time"
-        placeholder="上课时间"
-        style="margin-bottom: 1rem"
-      >
-      </a-input>
-      <a-input
-        v-model="teacher"
-        placeholder="任课老师"
-        style="margin-bottom: 1rem"
-      >
+      <a-input v-model="teacher" placeholder="院长" style="margin-bottom: 1rem">
       </a-input>
       <a-button type="primary" @click="addData">新建</a-button>
     </a-drawer>
@@ -48,27 +36,15 @@
     >
       <a-input
         v-model="title"
-        placeholder="课程名称"
+        placeholder="学院名称"
         style="margin-bottom: 1rem"
       >
       </a-input>
-      <a-input v-model="tip" placeholder="课程类型" style="margin-bottom: 1rem">
-      </a-input>
-      <a-input
-        v-model="area"
-        placeholder="上课地点"
-        style="margin-bottom: 1rem"
-      >
-      </a-input>
-      <a-input
-        v-model="time"
-        placeholder="上课时间"
-        style="margin-bottom: 1rem"
-      >
+      <a-input v-model="type" placeholder="专业" style="margin-bottom: 1rem">
       </a-input>
       <a-input
         v-model="teacher"
-        placeholder="任课老师"
+        placeholder="院长"
         style="margin-bottom: 1rem"
       >
       </a-input>
@@ -77,7 +53,7 @@
     <!-- 抽屉 -->
 
     <div class="exam_top_bar">
-      <h1 style="display: inline">选课管理</h1>
+      <h1 style="display: inline">院系管理</h1>
       <div class="exam_topbar_button_out">
         <a-button type="primary" @click="showDrawer" class="add_button">
           <a-icon type="plus" /> New Class
@@ -91,9 +67,7 @@
         v-for="(item, index) in list"
         v-show="fLoading"
         :title="item.title"
-        :tip="item.tip"
-        :area="item.area"
-        :time="item.time"
+        :type="item.type"
         :teacher="item.teacher"
         :id="item._id"
         :key="index"
@@ -105,7 +79,11 @@
 </template>
 
 <script>
-import { addClass, editClass, getClass } from "../../../network/class";
+import {
+  addDepartment,
+  editDepartment,
+  getDepartment,
+} from "../../../network/department";
 import classItem from "./item";
 
 export default {
@@ -119,9 +97,7 @@ export default {
       visible: false,
 
       title: "",
-      tip: "",
-      area: "",
-      time: "",
+      type: "",
       teacher: "",
 
       visibleE: false,
@@ -132,6 +108,9 @@ export default {
     fLoading() {
       return !this.loading;
     },
+    getTypes() {
+      return this.type.split(",");
+    },
   },
   activated() {
     this.updateData();
@@ -139,7 +118,7 @@ export default {
   methods: {
     updateData() {
       this.loading = true;
-      getClass()
+      getDepartment()
         .then((res) => {
           this.list = res.data;
           this.loading = false;
@@ -151,11 +130,9 @@ export default {
     },
     addData() {
       const hide = this.$message.loading("正在添加...", 0);
-      addClass({
+      addDepartment({
         title: this.title,
-        tip: this.tip,
-        area: this.area,
-        time: this.time,
+        type: this.getTypes,
         teacher: this.teacher,
       })
         .then((res) => {
@@ -178,27 +155,21 @@ export default {
     },
     clear() {
       this.title = "";
-      this.tip = "";
-      this.area = "";
-      this.time = "";
+      this.type = "";
       this.teacher = "";
     },
     edit(text) {
       this.title = text.title;
-      this.tip = text.tip;
-      this.area = text.area;
-      this.time = text.time;
+      this.type = text.type;
       this.teacher = text.teacher;
       this.id = text.id;
       this.showDrawerE();
     },
     editData() {
       const hide = this.$message.loading("正在提交修改...", 0);
-      editClass({
+      editDepartment({
         title: this.title,
-        tip: this.tip,
-        area: this.area,
-        time: this.time,
+        type: this.getTypes,
         teacher: this.teacher,
         _id: this.id,
       })

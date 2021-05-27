@@ -127,6 +127,49 @@
     </a-drawer>
     <!-- 抽屉2 -->
 
+    <!-- 抽屉3 -->
+    <a-drawer
+      title="记录新成绩"
+      :width="360"
+      :visible="visible3"
+      :body-style="{ paddingBottom: '80px' }"
+      @close="onClose3"
+      class="user_drawer"
+    >
+      <a-input
+        v-model="name2"
+        placeholder="学生姓名"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-input v-model="type2" placeholder="专业" style="margin-bottom: 1rem">
+      </a-input>
+      <a-input v-model="Sclass2" placeholder="班级" style="margin-bottom: 1rem">
+      </a-input>
+      <a-input
+        v-model="idNo2"
+        placeholder="身份证号"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-input v-model="exam2" placeholder="考试名" style="margin-bottom: 1rem">
+      </a-input>
+      <a-input
+        v-model="score2"
+        placeholder="考试成绩"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-input
+        v-model="time2"
+        placeholder="登分时间"
+        style="margin-bottom: 1rem"
+      >
+      </a-input>
+      <a-button type="primary" @click="addData3">新建</a-button>
+    </a-drawer>
+    <!-- 抽屉3 -->
+
     <div class="exam_top_bar">
       <h1 style="display: inline">考务管理</h1>
       <div class="exam_topbar_button_out">
@@ -179,6 +222,22 @@
           </a-table>
         </div>
       </a-tab-pane>
+      <a-tab-pane key="3" tab="补考/重修管理" force-render>
+        <div class="exam_table_out2">
+          <a-table
+            :columns="columns_status"
+            :data-source="data_score2"
+            :pagination="pagination"
+            :loading="loading3"
+            bordered
+            class="table1"
+          >
+            <p slot="tags" slot-scope="text" class="do_p">
+              <a-button @click="del3(text)">删除</a-button>
+            </p>
+          </a-table>
+        </div>
+      </a-tab-pane>
     </a-tabs>
   </div>
 </template>
@@ -192,6 +251,9 @@ import {
   getScore,
   addScore,
   delScore,
+  getpaScore,
+  addpaScore,
+  delpaScore,
 } from "../../../network/exam";
 const columns_status = [
   {
@@ -216,7 +278,7 @@ const columns_status = [
     dataIndex: "exam",
   },
   {
-    title: "成绩",
+    title: "补考成绩",
     dataIndex: "score",
   },
   {
@@ -244,6 +306,7 @@ export default {
       loading: true,
       list: [],
       data_score: [],
+      data_score2: [],
       visible: false,
       visibleE: false,
 
@@ -274,11 +337,15 @@ export default {
       exam2: "",
       score2: "",
       time2: "",
+
+      loading3: true,
+      visible3: false,
     };
   },
   activated() {
     this.updateData();
     this.updateData2();
+    this.updateData3();
   },
   computed: {
     fLoading() {
@@ -289,8 +356,10 @@ export default {
     tab_key: function (val) {
       if (val == 1) {
         this.addText = "New Exam";
-      } else {
+      } else if (val == 2) {
         this.addText = "New Score";
+      } else {
+        this.addText = "New Record";
       }
     },
   },
@@ -351,8 +420,10 @@ export default {
     showDrawer() {
       if (this.tab_key == 1) {
         this.visible = true;
-      } else {
+      } else if(this.tab_key == 2) {
         this.visible2 = true;
+      } else{
+        this.visible3 = true;
       }
     },
     onClose() {
@@ -366,6 +437,9 @@ export default {
     },
     onClose2() {
       this.visible2 = false;
+    },
+     onClose3() {
+      this.visible3 = false;
     },
     addData() {
       const hide = this.$message.loading("正在添加...", 0);
@@ -479,6 +553,76 @@ export default {
               self.$message.error(err);
               self.$message.error("连接异常");
               self.updateData2();
+            });
+        },
+        onCancel() {},
+      });
+    },
+
+    updateData3() {
+      this.loading3 = true;
+      getpaScore()
+        .then((res) => {
+          this.data_score2 = res.data;
+          this.loading3 = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$message.error("网络连接异常");
+        });
+    },
+    addData3() {
+      const hide = this.$message.loading("正在添加...", 0);
+      addpaScore({
+        name: this.name2,
+        type: this.type2,
+        Sclass: this.Sclass2,
+        idNo: this.idNo2,
+        exam: this.exam2,
+        score: this.score2,
+        time: this.time2,
+      })
+        .then((res) => {
+          if (res.data.success != false) {
+            setTimeout(hide, 0);
+            this.$message.success("添加成功");
+            this.updateData3();
+          } else {
+            setTimeout(hide, 0);
+            this.$message.error("添加失败");
+          }
+        })
+        .catch((err) => {
+          setTimeout(hide, 0);
+          this.$message.error(err);
+          console.log(err);
+          this.$message.error("添加失败，网络连接异常");
+        });
+      this.visible3 = false;
+      this.clear2();
+    },
+    del3(text) {
+      let self = this;
+      this.$confirm({
+        title: "确定要删除这个学生吗？",
+        content: "该操作将不可恢复，请谨慎操作",
+        onOk() {
+          const hide = self.$message.loading("正在删除...", 0);
+          delpaScore({ id: text._id })
+            .then((res) => {
+              setTimeout(hide, 0);
+              if (res.data.deleted == 1) {
+                self.$message.success("删除成功");
+              } else {
+                self.$message.error("删除失败");
+              }
+              self.updateData3();
+            })
+            .catch((err) => {
+              setTimeout(hide, 0);
+              self.$message.error(err);
+              self.$message.error("连接异常");
+              self.updateData3();
             });
         },
         onCancel() {},

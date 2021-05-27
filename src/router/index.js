@@ -83,6 +83,14 @@ const routes = [
         meta: {
           title: '选课管理'
         }
+      },
+      {
+        path: '/inner/department',
+        name: 'Department',
+        component: () => import('../views/inner/department/department.vue'),
+        meta: {
+          title: '选课管理'
+        }
       }
     ]
   },
