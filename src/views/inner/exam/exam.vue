@@ -225,7 +225,7 @@
       <a-tab-pane key="3" tab="补考/重修管理" force-render>
         <div class="exam_table_out2">
           <a-table
-            :columns="columns_status"
+            :columns="columns_status2"
             :data-source="data_score2"
             :pagination="pagination"
             :loading="loading3"
@@ -278,6 +278,43 @@ const columns_status = [
     dataIndex: "exam",
   },
   {
+    title: "成绩",
+    dataIndex: "score",
+  },
+  {
+    title: "记录时间",
+    dataIndex: "time",
+  },
+  {
+    title: "操作",
+    scopedSlots: { customRender: "tags" },
+    width: 90,
+  },
+];
+
+const columns_status2 = [
+  {
+    title: "学生姓名",
+    dataIndex: "name",
+    scopedSlots: { customRender: "name" },
+  },
+  {
+    title: "专业",
+    dataIndex: "type",
+  },
+  {
+    title: "班级",
+    dataIndex: "Sclass",
+  },
+  {
+    title: "身份证号",
+    dataIndex: "idNo",
+  },
+  {
+    title: "考试",
+    dataIndex: "exam",
+  },
+  {
     title: "补考成绩",
     dataIndex: "score",
   },
@@ -303,6 +340,7 @@ export default {
       },
       addText: "New Exam",
       columns_status,
+      columns_status2,
       loading: true,
       list: [],
       data_score: [],
