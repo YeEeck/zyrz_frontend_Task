@@ -10,10 +10,10 @@
 </template>
 
 <style>
-.main_inner {
-  /* margin-top: 20px; */
-  /* background-color: white; */
-}
+/* .main_inner {
+  margin-top: 20px;
+  background-color: white;
+} */
 </style>
 
 <script>
