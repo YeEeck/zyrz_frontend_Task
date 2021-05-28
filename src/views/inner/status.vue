@@ -3,6 +3,9 @@
     <div class="title_user">
       <h1 style="display: inline">奖惩和缺勤情况</h1>
       <div class="status_button_out">
+        <a-button type="primary" @click="exportExcel" class="add_button"
+          >导出</a-button
+        >
         <a-button
           v-if="search_show"
           type="primary"
@@ -235,6 +238,7 @@
             :loading="loading"
             bordered
             class="table1"
+            id="status_table1"
           >
             <p slot="tags" slot-scope="text" class="do_p">
               <a-button @click="edit(text)">编辑</a-button>
@@ -253,6 +257,7 @@
             :loading="loading2"
             bordered
             class="table1"
+            id="status_table2"
           >
             <p slot="tags" slot-scope="text" class="do_p">
               <a-button @click="edit2(text)">编辑</a-button>
@@ -267,6 +272,8 @@
 </template>
 
 <script>
+import FileSaver from "file-saver";
+import XLSX from "xlsx";
 import {
   getStatus,
   addStatus,
@@ -396,6 +403,8 @@ export default {
       eSclass2: "",
       eidNo2: "",
       eTime2: "",
+
+      table_name: "#status_table1",
     };
   },
   computed: {
@@ -414,8 +423,31 @@ export default {
   methods: {
     tabChange(key) {
       this.tab_key = key;
+      if (key == 1) {
+        this.table_name = "#status_table1";
+      } else {
+        this.table_name = "#status_table2";
+      }
     },
-
+    exportExcel() {
+      var wb = XLSX.utils.table_to_book(
+        document.querySelector(this.table_name)
+      ); // 这个id是表格的id
+      var wbout = XLSX.write(wb, {
+        bookType: "xlsx",
+        bookSST: true,
+        type: "array",
+      });
+      try {
+        FileSaver.saveAs(
+          new Blob([wbout], { type: "application/octet-stream" }),
+          this.table_name + ".xlsx"
+        );
+      } catch (e) {
+        if (typeof console !== "undefined") console.log(e, wbout);
+      }
+      return wbout;
+    },
     updateData() {
       this.loading = true;
       getStatus().then((res) => {

@@ -3,6 +3,7 @@ import { Button, Input, message, Icon, Table, Drawer, Divider, Modal, Tabs, Tag,
 import App from './App.vue'
 import router from './router'
 
+
 Vue.component(Button.name, Button)
 Vue.component(Input.name, Input)
 Vue.component(Icon.name, Icon)

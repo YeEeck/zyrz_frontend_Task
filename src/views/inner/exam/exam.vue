@@ -173,6 +173,13 @@
     <div class="exam_top_bar">
       <h1 style="display: inline">考务管理</h1>
       <div class="exam_topbar_button_out">
+        <a-button
+          type="primary"
+          @click="exportExcel"
+          class="add_button"
+          v-show="showExport"
+          >导出</a-button
+        >
         <a-button type="primary" @click="showDrawer" class="add_button">
           <a-icon type="plus" /> {{ addText }}
         </a-button>
@@ -215,6 +222,7 @@
             :loading="loading2"
             bordered
             class="table1"
+            id="exam_table1"
           >
             <p slot="tags" slot-scope="text" class="do_p">
               <a-button @click="del2(text)">删除</a-button>
@@ -231,6 +239,7 @@
             :loading="loading3"
             bordered
             class="table1"
+            id="exam_table2"
           >
             <p slot="tags" slot-scope="text" class="do_p">
               <a-button @click="del3(text)">删除</a-button>
@@ -243,6 +252,8 @@
 </template>
 
 <script>
+import FileSaver from "file-saver";
+import XLSX from "xlsx";
 import examItem from "./item";
 import {
   getExam,
@@ -378,6 +389,9 @@ export default {
 
       loading3: true,
       visible3: false,
+
+      table_name: "#exam_table1",
+      showExport: false,
     };
   },
   activated() {
@@ -402,8 +416,36 @@ export default {
     },
   },
   methods: {
+    exportExcel() {
+      var wb = XLSX.utils.table_to_book(
+        document.querySelector(this.table_name)
+      ); // 这个id是表格的id
+      var wbout = XLSX.write(wb, {
+        bookType: "xlsx",
+        bookSST: true,
+        type: "array",
+      });
+      try {
+        FileSaver.saveAs(
+          new Blob([wbout], { type: "application/octet-stream" }),
+          this.table_name + ".xlsx"
+        );
+      } catch (e) {
+        if (typeof console !== "undefined") console.log(e, wbout);
+      }
+      return wbout;
+    },
     tabChange(key) {
       this.tab_key = key;
+      if (key == 2) {
+        this.table_name = "#exam_table1";
+        this.showExport = true;
+      } else if (key == 3) {
+        this.table_name = "#exam_table2";
+        this.showExport = true;
+      } else {
+        this.showExport = false;
+      }
     },
     updateData() {
       this.loading = true;
@@ -458,9 +500,9 @@ export default {
     showDrawer() {
       if (this.tab_key == 1) {
         this.visible = true;
-      } else if(this.tab_key == 2) {
+      } else if (this.tab_key == 2) {
         this.visible2 = true;
-      } else{
+      } else {
         this.visible3 = true;
       }
     },
@@ -476,7 +518,7 @@ export default {
     onClose2() {
       this.visible2 = false;
     },
-     onClose3() {
+    onClose3() {
       this.visible3 = false;
     },
     addData() {

@@ -92,6 +92,7 @@
     <div class="title_user">
       <h1 style="display: inline">学生信息</h1>
       <div class="inner_button_out">
+        <a-button type="primary" @click="exportExcel" class="add_button">导出</a-button>
         <a-button type="primary" @click="showDrawerF" class="add_button">
           <a-icon type="search" />
         </a-button>
@@ -109,6 +110,7 @@
         :loading="loading"
         bordered
         class="table1"
+        id="table_user"
       >
         <p slot="tags" slot-scope="text" class="do_p">
           <a-button @click="edit(text)">编辑</a-button>
@@ -121,6 +123,9 @@
 </template>
 
 <script>
+import FileSaver from "file-saver";
+import XLSX from "xlsx";
+
 import {
   getStudents,
   addStudent,
@@ -204,6 +209,23 @@ export default {
     });
   },
   methods: {
+    exportExcel() {
+      var wb = XLSX.utils.table_to_book(document.querySelector("#table_user")); // 这个id是表格的id
+      var wbout = XLSX.write(wb, {
+        bookType: "xlsx",
+        bookSST: true,
+        type: "array",
+      });
+      try {
+        FileSaver.saveAs(
+          new Blob([wbout], { type: "application/octet-stream" }),
+          "学生信息.xlsx"
+        );
+      } catch (e) {
+        if (typeof console !== "undefined") console.log(e, wbout);
+      }
+      return wbout;
+    },
     updateStudents() {
       this.loading = true;
       getStudents().then((res) => {
