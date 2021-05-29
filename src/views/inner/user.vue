@@ -92,7 +92,12 @@
     <div class="title_user">
       <h1 style="display: inline">学生信息</h1>
       <div class="inner_button_out">
-        <a-button type="primary" @click="exportExcel" class="add_button">导出</a-button>
+        <a-button type="primary" @click="exportExcel" class="add_button"
+          >导出</a-button
+        >
+        <a-button type="primary" class="add_button" v-print="'#table_user'"
+          >打印</a-button
+        >
         <a-button type="primary" @click="showDrawerF" class="add_button">
           <a-icon type="search" />
         </a-button>

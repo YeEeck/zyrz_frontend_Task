@@ -79,13 +79,19 @@
     <div class="exam_top_bar">
       <h1 style="display: inline">选课管理</h1>
       <div class="exam_topbar_button_out">
+        <a-button
+          type="primary"
+          class="add_button"
+          v-print="'#class_items_list'"
+          >打印</a-button
+        >
         <a-button type="primary" @click="showDrawer" class="add_button">
           <a-icon type="plus" /> New Class
         </a-button>
       </div>
     </div>
 
-    <div class="class_items_list">
+    <div class="class_items_list" id="class_items_list">
       <a-skeleton active v-show="loading" :paragraph="{ rows: 5 }" />
       <class-item
         v-for="(item, index) in list"

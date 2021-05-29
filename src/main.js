@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { Button, Input, message, Icon, Table, Drawer, Divider, Modal, Tabs, Tag, Skeleton } from 'ant-design-vue';
 import App from './App.vue'
 import router from './router'
+import Print from 'vue-print-nb'
 
 
 Vue.component(Button.name, Button)
@@ -17,7 +18,8 @@ Vue.component(Skeleton.name, Skeleton)
 // Vue.component(Menu.name, Menu)
 // Vue.component(Layout.name, Layout)
 Vue.use(Modal);
-Vue.use(Tabs)
+Vue.use(Tabs);
+Vue.use(Print);
 
 Vue.prototype.$message = message;
 Vue.prototype.$confirm = Modal.confirm;

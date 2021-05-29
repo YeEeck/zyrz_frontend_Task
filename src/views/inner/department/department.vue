@@ -42,11 +42,7 @@
       </a-input>
       <a-input v-model="type" placeholder="专业" style="margin-bottom: 1rem">
       </a-input>
-      <a-input
-        v-model="teacher"
-        placeholder="院长"
-        style="margin-bottom: 1rem"
-      >
+      <a-input v-model="teacher" placeholder="院长" style="margin-bottom: 1rem">
       </a-input>
       <a-button type="primary" @click="editData">提交</a-button>
     </a-drawer>
@@ -55,13 +51,19 @@
     <div class="exam_top_bar">
       <h1 style="display: inline">院系管理</h1>
       <div class="exam_topbar_button_out">
+        <a-button
+          type="primary"
+          class="add_button"
+          v-print="'#class_items_list'"
+          >打印</a-button
+        >
         <a-button type="primary" @click="showDrawer" class="add_button">
           <a-icon type="plus" /> New Class
         </a-button>
       </div>
     </div>
 
-    <div class="class_items_list">
+    <div class="class_items_list" id="class_items_list">
       <a-skeleton active v-show="loading" :paragraph="{ rows: 5 }" />
       <class-item
         v-for="(item, index) in list"
@@ -265,5 +267,9 @@ export default {
 }
 .user_drawer {
   text-align: center;
+}
+.add_button {
+  display: inline-block;
+  margin-right: 5%;
 }
 </style>

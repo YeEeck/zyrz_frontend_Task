@@ -180,6 +180,27 @@
           v-show="showExport"
           >导出</a-button
         >
+        <a-button
+          type="primary"
+          class="add_button"
+          v-print="'#exam_table_out'"
+          v-show="showPrint1"
+          >打印</a-button
+        >
+        <a-button
+          type="primary"
+          class="add_button"
+          v-print="'#exam_table1'"
+          v-show="showPrint2"
+          >打印</a-button
+        >
+        <a-button
+          type="primary"
+          class="add_button"
+          v-print="'#exam_table2'"
+          v-show="showPrint3"
+          >打印</a-button
+        >
         <a-button type="primary" @click="showDrawer" class="add_button">
           <a-icon type="plus" /> {{ addText }}
         </a-button>
@@ -194,7 +215,7 @@
       @change="tabChange"
     >
       <a-tab-pane key="1" tab="考试管理"
-        ><div class="exam_table_out">
+        ><div class="exam_table_out" id="exam_table_out">
           <div class="items_list">
             <a-skeleton active v-show="loading" :paragraph="{ rows: 5 }" />
             <exam-item
@@ -402,6 +423,27 @@ export default {
   computed: {
     fLoading() {
       return !this.loading;
+    },
+    showPrint1() {
+      if (this.tab_key == "1") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    showPrint2() {
+      if (this.tab_key == "2") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    showPrint3() {
+      if (this.tab_key == "3") {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
   watch: {

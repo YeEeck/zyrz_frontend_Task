@@ -7,6 +7,20 @@
           >导出</a-button
         >
         <a-button
+          type="primary"
+          class="add_button"
+          v-print="'#status_table1'"
+          v-show="showPrint1"
+          >打印</a-button
+        >
+        <a-button
+          type="primary"
+          class="add_button"
+          v-print="'#status_table2'"
+          v-show="showPrint2"
+          >打印</a-button
+        >
+        <a-button
           v-if="search_show"
           type="primary"
           @click="showDrawerF"
@@ -413,6 +427,20 @@ export default {
         return false;
       } else {
         return true;
+      }
+    },
+    showPrint1() {
+      if (this.tab_key == "1") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    showPrint2() {
+      if (this.tab_key == "2") {
+        return true;
+      } else {
+        return false;
       }
     },
   },

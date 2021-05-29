@@ -22,10 +22,6 @@
           <a-icon type="team" />
           院系管理
         </li>
-        <li class="item" @click="gotoUesr">
-          <a-icon type="project" />
-          数据统计
-        </li>
       </ul>
     </div>
   </div>
