@@ -232,7 +232,7 @@
         style="margin-bottom: 1rem"
       >
       </a-input>
-      <a-button type="primary" @click="editData2">添加</a-button>
+      <a-button type="primary" @click="editData2">提交</a-button>
     </a-drawer>
     <!-- Tab2的记录 -->
 
