@@ -14,7 +14,7 @@
         style="margin-bottom: 1rem"
       >
       </a-input>
-      <a-input v-model="newType" placeholder="专业" style="margin-bottom: 1rem">
+      <a-input v-model="newType" placeholder="学院" style="margin-bottom: 1rem">
       </a-input>
       <a-input
         v-model="newClass"
@@ -49,7 +49,7 @@
         style="margin-bottom: 1rem"
       >
       </a-input>
-      <a-input v-model="fType" placeholder="专业" style="margin-bottom: 1rem">
+      <a-input v-model="fType" placeholder="学院" style="margin-bottom: 1rem">
       </a-input>
       <a-input v-model="fClass" placeholder="班级" style="margin-bottom: 1rem">
       </a-input>
@@ -76,7 +76,7 @@
         style="margin-bottom: 1rem"
       >
       </a-input>
-      <a-input v-model="eType" placeholder="专业" style="margin-bottom: 1rem">
+      <a-input v-model="eType" placeholder="学院" style="margin-bottom: 1rem">
       </a-input>
       <a-input v-model="eClass" placeholder="班级" style="margin-bottom: 1rem">
       </a-input>
@@ -95,7 +95,7 @@
         <a-button type="primary" @click="exportExcel" class="add_button"
           >导出</a-button
         >
-        <a-button type="primary" class="add_button" v-print="'#table_user'"
+        <a-button type="primary" class="add_button" v-print="printConfig"
           >打印</a-button
         >
         <a-button type="primary" @click="showDrawerF" class="add_button">
@@ -146,7 +146,7 @@ const columns = [
     scopedSlots: { customRender: "name" },
   },
   {
-    title: "专业",
+    title: "学院",
     dataIndex: "type",
   },
   {
@@ -203,6 +203,11 @@ export default {
       fAge: "",
       fSex: "",
       fId: "",
+
+      printConfig:{
+        id:"#table_user",
+        popTitle: "学生信息"
+      }
     };
   },
   activated() {

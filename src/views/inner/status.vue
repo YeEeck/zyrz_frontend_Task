@@ -48,7 +48,7 @@
         style="margin-bottom: 1rem"
       >
       </a-input>
-      <a-input v-model="newType" placeholder="专业" style="margin-bottom: 1rem">
+      <a-input v-model="newType" placeholder="学院" style="margin-bottom: 1rem">
       </a-input>
       <a-input
         v-model="newClass"
@@ -91,7 +91,7 @@
         style="margin-bottom: 1rem"
       >
       </a-input>
-      <a-input v-model="eType" placeholder="专业" style="margin-bottom: 1rem">
+      <a-input v-model="eType" placeholder="学院" style="margin-bottom: 1rem">
       </a-input>
       <a-input v-model="eClass" placeholder="班级" style="margin-bottom: 1rem">
       </a-input>
@@ -130,7 +130,7 @@
         style="margin-bottom: 1rem"
       >
       </a-input>
-      <a-input v-model="fType" placeholder="专业" style="margin-bottom: 1rem">
+      <a-input v-model="fType" placeholder="学院" style="margin-bottom: 1rem">
       </a-input>
       <a-input v-model="fClass" placeholder="班级" style="margin-bottom: 1rem">
       </a-input>
@@ -173,7 +173,7 @@
       </a-input>
       <a-input
         v-model="newType2"
-        placeholder="专业"
+        placeholder="学院"
         style="margin-bottom: 1rem"
       >
       </a-input>
@@ -212,7 +212,7 @@
         style="margin-bottom: 1rem"
       >
       </a-input>
-      <a-input v-model="eType2" placeholder="专业" style="margin-bottom: 1rem">
+      <a-input v-model="eType2" placeholder="学院" style="margin-bottom: 1rem">
       </a-input>
       <a-input
         v-model="eSclass2"
@@ -307,7 +307,7 @@ const columns_status = [
     scopedSlots: { customRender: "name" },
   },
   {
-    title: "专业",
+    title: "学院",
     dataIndex: "type",
   },
   {
@@ -341,7 +341,7 @@ const columns_status2 = [
     scopedSlots: { customRender: "name" },
   },
   {
-    title: "专业",
+    title: "学院",
     dataIndex: "type",
   },
   {
